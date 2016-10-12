@@ -1,0 +1,5 @@
+#import <CoreFoundation/CoreFoundation.h>
+unsigned long resolveAliasToBuffer(char *aliasPath, char *buffer, int bufferLength, bool *isAlias);
+char * resolveAlias(char *aliasPath);
+void logError(CFErrorRef error);
+

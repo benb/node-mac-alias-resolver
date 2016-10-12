@@ -1,0 +1,15 @@
+{
+  "name": "alias-resolver",
+  "version": "0.0.1",
+  "description": "Resolve MacOS alias files",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "mkdir -p dist && clang src/aliasResolver.c -framework CoreFoundation -shared -o dist/libAliasResolver.dylib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ben Blackburne",
+  "license": "ISC",
+  "dependencies": {
+    "ffi": "^2.1.0"
+  }
+}
