@@ -5,11 +5,17 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "mkdir -p dist && clang src/aliasResolver.c -framework CoreFoundation -shared -o dist/libAliasResolver.dylib",
+    "prepackage": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ben Blackburne",
   "license": "ISC",
   "dependencies": {
+    "@types/ffi": "0.0.18",
+    "@types/node": "^6.0.45",
     "ffi": "^2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.3"
   }
 }
