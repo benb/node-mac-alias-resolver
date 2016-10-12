@@ -6,7 +6,7 @@ const aliasResolver = ffi.Library(__dirname + '/dist/libAliasResolver', {
 });
 
 
-function resolveAliasWithBuffer(path: string, initialBufferSize: number): string | null {
+function resolveAliasWithBuffer(path: string, initialBufferSize: number): Maybe<string> {
   const buffer = Buffer.alloc(initialBufferSize);
   const sizeBuffer = Buffer.alloc(4);
 
@@ -25,11 +25,13 @@ function resolveAliasWithBuffer(path: string, initialBufferSize: number): string
   return str;
 }
 
-function fmap<T,U>(val: T | null, f: (v:T) => U): U | null {
+type Maybe<T> = T | null;
+
+function fmap<T,U>(val: Maybe<T>, f: (v:T) => U): Maybe<U> {
   return val ? f(val) : null;
 }
 
-function resolveAlias(path: string): string | null {
+function resolveAlias(path: string): Maybe<string> {
   return fmap(resolveAliasWithBuffer(path, 512), fileURIString => {
     const fileURL = url.parse(fileURIString);
     return fileURL.path ? decodeURI(path) : null; 
