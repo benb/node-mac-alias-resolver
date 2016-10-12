@@ -27,6 +27,11 @@ function resolveAliasWithBuffer(path, initialBufferSize) {
 
 function resolveAlias(path) {
   const fileURIString = resolveAliasWithBuffer(path, 512);
+
+  if (!fileURIString) {
+    return null;
+  }
+
   const fileURL = url.parse(fileURIString);
   return decodeURI(fileURL.path);
 }
