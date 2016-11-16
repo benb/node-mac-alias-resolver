@@ -31,11 +31,10 @@ function fmap<T,U>(val: Maybe<T>, f: (v:T) => U): Maybe<U> {
   return val ? f(val) : null;
 }
 
-function resolveAlias(path: string): Maybe<string> {
+export default function resolveAlias(path: string): string | null {
   return fmap(resolveAliasWithBuffer(path, 512), fileURIString => {
     const fileURL = url.parse(fileURIString);
     return fileURL.path ? decodeURI(path) : null; 
   });
 }
 
-module.exports = resolveAlias;

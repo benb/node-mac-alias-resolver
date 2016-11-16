@@ -15,13 +15,15 @@
     "@types/node": "^6.0.45",
     "ffi": "^2.1.0"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/benb/node-mac-alias-resolver.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benb/node-mac-alias-resolver.git"
   },
   "devDependencies": {
     "typescript": "^2.0.3"
   },
   "typings": "index",
-  "os" : [ "darwin" ]
+  "os": [
+    "darwin"
+  ]
 }
