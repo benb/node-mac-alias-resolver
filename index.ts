@@ -1,7 +1,12 @@
 import * as ffi from 'ffi';
 import * as url from 'url'
+import * as fs from 'fs';
 
-const aliasResolver = ffi.Library(__dirname + '/dist/libAliasResolver', {
+// Library file could be bundled outside of file bundle (e.g. for an Electron-based app).
+// Check if it is available in the 'proper' location, else use system search paths:
+const aliasResolverLib = fs.existsSync(__dirname + '/dist/libAliasResolver.dylib') ? __dirname + '/dist/libAliasResolver' : 'libAliasResolver';
+
+const aliasResolver = ffi.Library(aliasResolverLib, {
   'resolveAliasToBuffer' : [ 'bool' , [ 'CString', 'char *', 'ulong', 'ulong *' ] ]
 });
 
