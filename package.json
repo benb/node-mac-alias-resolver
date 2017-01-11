@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "ava": "^0.17.0",
+    "temp": "^0.8.3",
     "typescript": "^2.0.3"
   },
   "typings": "index",
