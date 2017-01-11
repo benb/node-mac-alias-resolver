@@ -39,7 +39,7 @@ function fmap<T,U>(val: Maybe<T>, f: (v:T) => U): Maybe<U> {
 export default function resolveAlias(path: string): string | null {
   return fmap(resolveAliasWithBuffer(path, 512), fileURIString => {
     const fileURL = url.parse(fileURIString);
-    return fileURL.path ? decodeURI(path) : null; 
+    return fileURL.path ? decodeURI(fileURL.path) : null; 
   });
 }
 
