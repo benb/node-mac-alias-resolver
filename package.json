@@ -1,6 +1,6 @@
 {
   "name": "alias-resolver",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Resolve MacOS alias files",
   "main": "index.js",
   "scripts": {
