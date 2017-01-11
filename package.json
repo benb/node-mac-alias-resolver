@@ -6,24 +6,31 @@
   "scripts": {
     "preinstall": "mkdir -p dist && clang src/aliasResolver.c -framework CoreFoundation -shared -o dist/libAliasResolver.dylib",
     "prepublish": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "author": "Ben Blackburne",
   "license": "ISC",
   "dependencies": {
     "@types/ffi": "0.0.18",
+    "@types/fs-extra-promise": "^0.0.30",
     "@types/node": "^6.0.45",
-    "ffi": "^2.1.0"
+    "ffi": "^2.1.0",
+    "fs-extra-promise": "^0.4.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/benb/node-mac-alias-resolver.git"
   },
   "devDependencies": {
+    "ava": "^0.17.0",
     "typescript": "^2.0.3"
   },
   "typings": "index",
   "os": [
     "darwin"
-  ]
+  ],
+  "bin": {
+    "resolve-alias": "bin/resolveAlias.js",
+    "create-alias": "bin/createAlias.js"
+  }
 }

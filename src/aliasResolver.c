@@ -13,6 +13,50 @@ bool resolveAliasToBuffer(char *aliasPath, char *buffer, int bufferLength, unsig
   return false;
 }
 
+bool createAliasForFile(char *fromPath, char *aliasPath) {
+  return createAlias(fromPath, aliasPath) == 0;
+}
+
+int createAlias(char *fromPath, char *aliasPath) {
+  CFErrorRef error = NULL;
+
+  CFStringRef fromStr = CFStringCreateWithCString(NULL, fromPath, kCFStringEncodingUTF8);
+  CFStringRef aliasStr = CFStringCreateWithCString(NULL, aliasPath, kCFStringEncodingUTF8);
+
+  CFURLRef fromURL = CFURLCreateWithFileSystemPath(NULL, fromStr, kCFURLPOSIXPathStyle, false);
+  CFURLRef aliasURL = CFURLCreateWithFileSystemPath(NULL, aliasStr, kCFURLPOSIXPathStyle, false);
+
+  CFRelease(fromStr);
+  CFRelease(aliasStr);
+
+  CFDataRef bookmark = CFURLCreateBookmarkData(NULL, fromURL, kCFURLBookmarkCreationSuitableForBookmarkFile, NULL, NULL, &error);
+  if (!bookmark) {
+    if (error != NULL) {
+      logError(error);
+    }
+    CFRelease(fromURL);
+    CFRelease(aliasURL);
+    CFRelease(error);
+    return 1;
+  }
+
+  CFRelease(fromURL);
+
+  if (!CFURLWriteBookmarkDataToFile(bookmark, aliasURL, 0, &error)) {
+    if (error != NULL) {
+      logError(error);
+    }
+    CFRelease(aliasURL);
+    CFRelease(bookmark);
+    CFRelease(error);
+    return 2;
+  }
+
+  CFRelease(aliasURL);
+  CFRelease(bookmark);
+  return 0;
+}
+
 char * resolveAlias(char *aliasPath) {
   CFErrorRef error = NULL;
 
@@ -23,6 +67,7 @@ char * resolveAlias(char *aliasPath) {
 
   CFDataRef bookmark = CFURLCreateBookmarkDataFromFile(NULL, url, &error);
   CFRelease(url);
+  
   if (!bookmark) {
     if (error != NULL) {
       if (CFErrorGetCode(error) != 256) {

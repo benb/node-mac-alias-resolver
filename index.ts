@@ -7,7 +7,8 @@ import * as fs from 'fs';
 const aliasResolverLib = fs.existsSync(__dirname + '/dist/libAliasResolver.dylib') ? __dirname + '/dist/libAliasResolver' : 'libAliasResolver';
 
 const aliasResolver = ffi.Library(aliasResolverLib, {
-  'resolveAliasToBuffer' : [ 'bool' , [ 'CString', 'char *', 'ulong', 'ulong *' ] ]
+  'resolveAliasToBuffer' : [ 'bool' , [ 'CString', 'char *', 'ulong', 'ulong *' ] ],
+  'createAliasForFile' : [ 'bool' , [ 'CString', 'CString' ] ]
 });
 
 
@@ -43,3 +44,6 @@ export default function resolveAlias(path: string): string | null {
   });
 }
 
+export function createAlias(from: string, to: String): boolean{
+  return aliasResolver.createAliasForFile(from, to);
+}
