@@ -4,13 +4,18 @@ import * as fs from 'fs';
 
 // Library file could be bundled outside of file bundle (e.g. for an Electron-based app).
 // Check if it is available in the 'proper' location, else use system search paths:
-const aliasResolverLib = fs.existsSync(__dirname + '/dist/libAliasResolver.dylib') ? __dirname + '/dist/libAliasResolver' : 'libAliasResolver';
 
-const aliasResolver = ffi.Library(aliasResolverLib, {
+let aliasResolver: any = null;
+const aliasResolverFunctionDeclarations = {
   'resolveAliasToBuffer' : [ 'bool' , [ 'CString', 'char *', 'ulong', 'ulong *' ] ],
   'createAliasForFile' : [ 'bool' , [ 'CString', 'CString' ] ]
-});
+}
 
+try {
+  aliasResolver = ffi.Library('libAliasResolver.dylib', aliasResolverFunctionDeclarations);
+} catch (e) {
+  aliasResolver = ffi.Library(__dirname + '/dist/libAliasResolver.dylib', aliasResolverFunctionDeclarations);
+}
 
 function resolveAliasWithBuffer(path: string, initialBufferSize: number): Maybe<string> {
   const buffer = Buffer.alloc(initialBufferSize);
